@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"net"
 	"net/http"
+	"strings"
 
 	"github.com/flynn/flynn/pkg/httphelper"
 	"github.com/julienschmidt/httprouter"
@@ -29,7 +31,7 @@ func NewServer(url string, backend StorageBackend) *Server {
 
 func (s *Server) CreateCluster(w http.ResponseWriter, req *http.Request, _ httprouter.Params) {
 	cluster := &Cluster{
-		CreatorIP:        req.RemoteAddr, // TODO: parse X-Forwarded-For
+		CreatorIP:        sourceIP(req),
 		CreatorUserAgent: req.Header.Get("User-Agent"),
 	}
 
@@ -56,7 +58,7 @@ func (s *Server) CreateInstance(w http.ResponseWriter, req *http.Request, params
 	}
 	inst := data.Data
 	inst.ClusterID = params.ByName("cluster_id")
-	inst.CreatorIP = req.RemoteAddr // TODO: parse X-Forwarded-For
+	inst.CreatorIP = sourceIP(req)
 	// TODO: validate with JSON schema
 
 	status := http.StatusCreated
@@ -87,4 +89,13 @@ func (s *Server) GetInstances(w http.ResponseWriter, req *http.Request, params h
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	s.router.ServeHTTP(w, r)
+}
+
+func sourceIP(req *http.Request) string {
+	if xff := req.Header.Get("X-Forwarded-For"); xff != "" {
+		ips := strings.Split(xff, ",")
+		return strings.TrimSpace(ips[len(ips)-1])
+	}
+	ip, _, _ := net.SplitHostPort(req.RemoteAddr)
+	return ip
 }
