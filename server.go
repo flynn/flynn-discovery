@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/jackc/pgx"
+	"github.com/flynn/flynn-discovery/Godeps/_workspace/src/github.com/jackc/pgx"
 )
 
 func main() {

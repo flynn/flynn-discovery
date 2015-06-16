@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/jackc/pgx"
+	"github.com/flynn/flynn-discovery/Godeps/_workspace/src/github.com/jackc/pgx"
 )
 
 func NewPostgresBackend(db *pgx.ConnPool) StorageBackend {
