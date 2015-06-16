@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/flynn/flynn/pkg/httphelper"
-	"github.com/julienschmidt/httprouter"
+	"github.com/flynn/flynn-discovery/Godeps/_workspace/src/github.com/flynn/flynn/pkg/httphelper"
+	"github.com/flynn/flynn-discovery/Godeps/_workspace/src/github.com/julienschmidt/httprouter"
 )
 
 type Server struct {
