@@ -4,19 +4,19 @@ A cluster peer discovery server.
 
 `flynn-discovery` provides a simple HTTP interface to create clusters, register cluster members and get cluster members.
 
-To get `flynn-discovery` run (requires a correctly configured Go environment):
+To get `flynn-discovery`:
 
 ```
 $ go get github.com/flynn/flynn-discovery
 ```
 
-To deploy `flynn-discovery` into a Flynn cluster execute the following steps:
+To deploy `flynn-discovery` on a Flynn cluster execute the following steps:
 
 ```
 $ cd $GOPATH/src/github.com/flynn/flynn-discovery
 $ flynn create flynn-discovery
 $ flynn resource add postgres
-$ cat schema.sql | flynn pg psql --
+$ flynn pg psql -- < postgres/schema.sql
 $ git push flynn master
 ```
 

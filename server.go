@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/flynn/flynn-discovery/Godeps/_workspace/src/github.com/jackc/pgx"
+	"github.com/flynn/flynn-discovery/discovery"
+	"github.com/flynn/flynn-discovery/postgres"
+	"github.com/jackc/pgx"
 )
 
 func main() {
@@ -18,5 +20,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), NewServer(os.Getenv("URL"), NewPostgresBackend(db))))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), discovery.NewServer(os.Getenv("URL"), postgres.NewPostgresBackend(db))))
 }
