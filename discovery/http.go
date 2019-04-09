@@ -39,7 +39,7 @@ func (s *Server) CreateCluster(w http.ResponseWriter, req *http.Request, _ httpr
 		cluster.CreatorUserAgent = cluster.CreatorUserAgent[:1000]
 	}
 
-	if err := s.Backend.CreateCluster(cluster); err != nil {
+	if err := s.Backend.CreateCluster(req.Context(), cluster); err != nil {
 		httphelper.Error(w, err)
 		return
 	}
@@ -62,7 +62,7 @@ func (s *Server) CreateInstance(w http.ResponseWriter, req *http.Request, params
 	// TODO: validate with JSON schema
 
 	status := http.StatusCreated
-	if err := s.Backend.CreateInstance(inst); err == ErrExists {
+	if err := s.Backend.CreateInstance(req.Context(), inst); err == ErrExists {
 		status = http.StatusConflict
 	} else if err != nil {
 		httphelper.Error(w, err)
@@ -74,7 +74,7 @@ func (s *Server) CreateInstance(w http.ResponseWriter, req *http.Request, params
 }
 
 func (s *Server) GetInstances(w http.ResponseWriter, req *http.Request, params httprouter.Params) {
-	instances, err := s.Backend.GetClusterInstances(params.ByName("cluster_id"))
+	instances, err := s.Backend.GetClusterInstances(req.Context(), params.ByName("cluster_id"))
 	if err != nil {
 		httphelper.Error(w, err)
 		return

@@ -1,6 +1,7 @@
 package discovery
 
 import (
+	"context"
 	"errors"
 	"time"
 )
@@ -31,7 +32,7 @@ type SSHPublicKey struct {
 var ErrExists = errors.New("object exists")
 
 type StorageBackend interface {
-	CreateCluster(*Cluster) error
-	CreateInstance(instance *Instance) error
-	GetClusterInstances(clusterID string) ([]*Instance, error)
+	CreateCluster(context.Context, *Cluster) error
+	CreateInstance(context.Context, *Instance) error
+	GetClusterInstances(ctx context.Context, clusterID string) ([]*Instance, error)
 }

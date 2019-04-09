@@ -20,5 +20,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), discovery.NewServer(os.Getenv("URL"), postgres.NewPostgresBackend(db))))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), discovery.NewServer(os.Getenv("URL"), postgres.NewBackend(db))))
 }
