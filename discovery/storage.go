@@ -7,26 +7,26 @@ import (
 )
 
 type Cluster struct {
-	ID               string
-	CreatorIP        string
-	CreatorUserAgent string
-	CreatedAt        time.Time
+	ID               string    `firestore:"-"`
+	CreatorIP        string    `firestore:"creator_ip"`
+	CreatorUserAgent string    `firestore:"creator_user_agent"`
+	CreatedAt        time.Time `firestore:"-"`
 }
 
 type Instance struct {
-	ID            string         `json:"id"`
-	ClusterID     string         `json:"cluster_id"`
-	FlynnVersion  string         `json:"flynn_version,omitempty"`
-	SSHPublicKeys []SSHPublicKey `json:"ssh_public_keys,omitempty"`
-	URL           string         `json:"url,omitempty"`
-	Name          string         `json:"name,omitempty"`
-	CreatorIP     string         `json:"-"`
-	CreatedAt     *time.Time     `json:"created_at,omitempty"`
+	ID            string         `json:"id" firestore:"id"`
+	ClusterID     string         `json:"cluster_id" firestore:"-"`
+	FlynnVersion  string         `json:"flynn_version,omitempty" firestore:"flynn_version"`
+	SSHPublicKeys []SSHPublicKey `json:"ssh_public_keys,omitempty" firestore:"ssh_public_keys"`
+	URL           string         `json:"url,omitempty" firestore:"url"`
+	Name          string         `json:"name,omitempty" firestore:"name"`
+	CreatorIP     string         `json:"-" firestore:"creator_ip"`
+	CreatedAt     *time.Time     `json:"created_at,omitempty" firestore:"-"`
 }
 
 type SSHPublicKey struct {
-	Type string `json:"type"`
-	Data []byte `json:"data"`
+	Type string `json:"type" firestore:"type"`
+	Data []byte `json:"data" firestore:"data"`
 }
 
 var ErrExists = errors.New("object exists")
